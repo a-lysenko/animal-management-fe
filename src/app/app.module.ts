@@ -9,6 +9,7 @@ import { CoreModule } from './_core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './_shared/shared.module';
 import { StoreModule } from '@ngrx/store';
+import {EffectsModule} from "@ngrx/effects";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { StoreModule } from '@ngrx/store';
     CoreModule,
     BrowserAnimationsModule,
     SharedModule,
-    StoreModule.forRoot({}, {})
+    StoreModule.forRoot({}, {}),
+    EffectsModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]

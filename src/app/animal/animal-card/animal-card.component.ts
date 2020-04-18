@@ -1,11 +1,12 @@
 import {Component, OnInit, ChangeDetectionStrategy, Inject} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Animal} from "../animal.types";
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
-import {select, State} from "@ngrx/store";
-import {animalFeatureKey, AnimalState, selectAnimal} from "../animal.reducer";
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Animal} from '../animal.types';
+import {Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {select, Store} from '@ngrx/store';
+import {animalFeatureKey, AnimalState, selectAnimal} from '../animal.reducer';
+import {animalLoadAction} from "../animal.actions";
 
 @Component({
   selector: 'app-animal-card',
@@ -21,10 +22,14 @@ export class AnimalCardComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<AnimalCardComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
-    private store: State<{[animalFeatureKey]: AnimalState}>
+    private store: Store<{[animalFeatureKey]: AnimalState}>
   ) {}
 
   ngOnInit(): void {
+    if (this.data && this.data.id) {
+      this.store.dispatch(animalLoadAction({id: this.data.id}));
+    }
+
     this.formGroup = this.fb.group({
       birthday: null,
       species: '',
@@ -34,6 +39,9 @@ export class AnimalCardComponent implements OnInit {
     this.model$ = this.store.pipe(
       select(selectAnimal),
       tap((animal) => {
+        if (!animal) {
+          return;
+        }
         this.formGroup.patchValue(animal);
         console.log('### this.formGroup.value', this.formGroup.value);
       })

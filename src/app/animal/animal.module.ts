@@ -4,9 +4,11 @@ import { CommonModule } from '@angular/common';
 import { AnimalRoutingModule } from './animal-routing.module';
 import { AnimalListComponent } from './animal-list/animal-list.component';
 import { AnimalCardComponent } from './animal-card/animal-card.component';
-import {SharedModule} from "../_shared/shared.module";
-import {StoreModule} from "@ngrx/store";
-import {animalFeatureKey, reducer} from "./animal.reducer";
+import {SharedModule} from '../_shared/shared.module';
+import {StoreModule} from '@ngrx/store';
+import {animalFeatureKey, reducer} from './animal.reducer';
+import {EffectsModule} from "@ngrx/effects";
+import {AnimalEffects} from "./animal.effects";
 
 
 @NgModule({
@@ -15,7 +17,8 @@ import {animalFeatureKey, reducer} from "./animal.reducer";
     CommonModule,
     SharedModule,
     AnimalRoutingModule,
-    StoreModule.forFeature(animalFeatureKey, reducer)
+    StoreModule.forFeature(animalFeatureKey, reducer),
+    EffectsModule.forFeature([AnimalEffects])
   ],
   entryComponents: [
     AnimalListComponent, AnimalCardComponent

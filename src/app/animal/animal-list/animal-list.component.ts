@@ -1,10 +1,11 @@
 import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {Observable} from "rxjs";
-import {Animal} from "../animal.types";
-import {AnimalCardComponent} from "../animal-card/animal-card.component";
-import {MatDialog} from "@angular/material/dialog";
-import {select, State} from "@ngrx/store";
-import {animalFeatureKey, AnimalState, selectAnimals} from "../animal.reducer";
+import {Observable} from 'rxjs';
+import {Animal} from '../animal.types';
+import {AnimalCardComponent} from '../animal-card/animal-card.component';
+import {MatDialog} from '@angular/material/dialog';
+import {select, Store} from '@ngrx/store';
+import {animalFeatureKey, AnimalState, selectAnimals} from '../animal.reducer';
+import {animalsLoadAction} from "../animal.actions";
 
 @Component({
   selector: 'app-animal-list',
@@ -14,15 +15,17 @@ import {animalFeatureKey, AnimalState, selectAnimals} from "../animal.reducer";
 })
 export class AnimalListComponent implements OnInit {
 
-  model$: Observable<Animal[]>
+  model$: Observable<Animal[]>;
 
   constructor(
     private dialog: MatDialog,
-    private store: State<{ [animalFeatureKey]: AnimalState }>
+    private store: Store<{ [animalFeatureKey]: AnimalState }>
   ) {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(animalsLoadAction());
+
     this.model$ = this.store.pipe(
       select(selectAnimals)
     );
