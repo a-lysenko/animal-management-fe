@@ -8,6 +8,7 @@ import { AnimalModule } from './animal/animal.module';
 import { CoreModule } from './_core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './_shared/shared.module';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { SharedModule } from './_shared/shared.module';
     AnimalModule,
     CoreModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    StoreModule.forRoot({}, {})
   ],
   providers: [],
   bootstrap: [AppComponent]

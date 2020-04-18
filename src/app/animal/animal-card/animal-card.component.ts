@@ -2,8 +2,10 @@ import {Component, OnInit, ChangeDetectionStrategy, Inject} from '@angular/core'
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Animal} from "../animal.types";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {tap} from "rxjs/operators";
+import {select, State} from "@ngrx/store";
+import {animalFeatureKey, AnimalState, selectAnimal} from "../animal.reducer";
 
 @Component({
   selector: 'app-animal-card',
@@ -18,7 +20,8 @@ export class AnimalCardComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<AnimalCardComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { id: number }
+    @Inject(MAT_DIALOG_DATA) public data: { id: number },
+    private store: State<{[animalFeatureKey]: AnimalState}>
   ) {}
 
   ngOnInit(): void {
@@ -28,12 +31,8 @@ export class AnimalCardComponent implements OnInit {
       vaccinated: false
     });
 
-    this.model$ = of({
-      id: 42,
-      birthday: new Date(2016, 2, 3),
-      species: 'Bulldog',
-      vaccinated: true
-    }).pipe(
+    this.model$ = this.store.pipe(
+      select(selectAnimal),
       tap((animal) => {
         this.formGroup.patchValue(animal);
         console.log('### this.formGroup.value', this.formGroup.value);
