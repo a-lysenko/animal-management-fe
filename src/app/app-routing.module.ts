@@ -12,6 +12,10 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent
+  },
+  {
+    path: 'animal',
+    loadChildren: () => import('./animal/animal.module').then(m => m.AnimalModule)
   }
 ];
 
