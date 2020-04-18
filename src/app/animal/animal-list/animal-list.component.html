@@ -2,24 +2,38 @@
   <h1>Animals</h1>
 </header>
 
-<section *ngIf="model$ | async as model">
-  <mat-list role="list">
-    <mat-list-item role="listitem"
-        *ngFor="let animal of model; trackBy: trackByFn">
-      <div>
-        <span>{{animal | json}}</span>
-        <button mat-icon-button (click)="openCard(animal)" color="">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="delete(animal)" color="accent">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    </mat-list-item>
-  </mat-list>
+<section *ngIf="model$ | async as model"
+  class="animal-list">
+  <section>
+    <button
+      mat-raised-button
+      [disabled]="model.animalsLoading"
+      (click)="openCard({id: null})">Add new animal</button>
+  </section>
 
   <section>
-    <button mat-raised-button (click)="openCard({id: null})">Add new animal</button>
+    <mat-list
+      role="list"
+      class="animal-list__list"
+      [ngClass]="{'animal-list__list_loading': model.animalsLoading}">
+      <mat-list-item role="listitem"
+                     *ngFor="let animal of model.animals; trackBy: trackByFn">
+        <div>
+          <span>{{animal | json}}</span>
+          <button mat-icon-button (click)="openCard(animal)" color="">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="delete(animal)" color="accent">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+
+    <section *ngIf="model.animalsLoading"
+      class="animal-list__spinner">
+      <mat-spinner></mat-spinner>
+    </section>
   </section>
 </section>
 

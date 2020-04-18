@@ -34,14 +34,22 @@ const animalReducer = createReducer(
     ...state,
     animalLoading: loading
   })),
-  on(animalActions.animalsLoadAction, (state) => ({
-    ...state,
-    animalsLoading: true
-  })),
-  on(animalActions.animalLoadAction, (state) => ({
-    ...state,
-    animalLoading: true
-  }))
+  on(
+    animalActions.animalsLoadAction,
+    animalActions.animalDeleteAction,
+    (state) => ({
+      ...state,
+      animalsLoading: true
+    })
+  ),
+  on(
+    animalActions.animalLoadAction,
+    animalActions.animalUpdateAction,
+    (state) => ({
+      ...state,
+      animalLoading: true
+    })
+  )
 );
 
 export const animalFeatureKey = 'animal';
@@ -52,12 +60,12 @@ export function reducer(state: AnimalState | undefined, action: Action) {
 
 export const selectFeature = createFeatureSelector<AnimalState>(animalFeatureKey);
 
-export const selectAnimals = createSelector(
+export const selectAnimalsWithLoading = createSelector(
   selectFeature,
-  ({animals}) => animals
+  ({animals, animalsLoading}) => ({animals, animalsLoading})
 );
 
-export const selectAnimal = createSelector(
+export const selectAnimalWithLoading = createSelector(
   selectFeature,
-  ({animal}) => animal
+  ({animal, animalLoading}) => ({animal, animalLoading})
 );

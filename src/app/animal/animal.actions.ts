@@ -21,9 +21,14 @@ export const animalLoadingAction = createAction(
   props<{ loading: boolean }>()
 );
 
-export const animalRemoveAction = createAction(
-  '[Animal] Remove an animal',
+export const animalDeleteAction = createAction(
+  '[Animal] Delete an animal',
   props<{ id: number }>()
+);
+
+export const animalUpdateAction = createAction(
+  '[Animal] Update an animal',
+  props<{ animal: Animal }>()
 );
 
 export const animalsLoadAction = createAction(

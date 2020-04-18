@@ -4,8 +4,13 @@ import {Animal} from '../animal.types';
 import {AnimalCardComponent} from '../animal-card/animal-card.component';
 import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
-import {animalFeatureKey, AnimalState, selectAnimals} from '../animal.reducer';
-import {animalsLoadAction} from "../animal.actions";
+import {animalFeatureKey, AnimalState, selectAnimalsWithLoading} from '../animal.reducer';
+import {animalDeleteAction, animalsLoadAction} from "../animal.actions";
+
+interface AnimalListModel {
+  animals: Animal[];
+  animalsLoading: boolean;
+}
 
 @Component({
   selector: 'app-animal-list',
@@ -15,7 +20,7 @@ import {animalsLoadAction} from "../animal.actions";
 })
 export class AnimalListComponent implements OnInit {
 
-  model$: Observable<Animal[]>;
+  model$: Observable<AnimalListModel>;
 
   constructor(
     private dialog: MatDialog,
@@ -27,7 +32,7 @@ export class AnimalListComponent implements OnInit {
     this.store.dispatch(animalsLoadAction());
 
     this.model$ = this.store.pipe(
-      select(selectAnimals)
+      select(selectAnimalsWithLoading)
     );
   }
 
@@ -47,6 +52,7 @@ export class AnimalListComponent implements OnInit {
 
   delete(animal: Animal) {
     console.log('Animal to delete', animal);
+    this.store.dispatch(animalDeleteAction({id: animal.id}));
   }
 
   trackByFn(index: number, item: Animal) {

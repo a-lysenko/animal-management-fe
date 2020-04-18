@@ -5,8 +5,13 @@ import {Animal} from '../animal.types';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
-import {animalFeatureKey, AnimalState, selectAnimal} from '../animal.reducer';
+import {animalFeatureKey, AnimalState, selectAnimalWithLoading} from '../animal.reducer';
 import {animalLoadAction} from "../animal.actions";
+
+interface AnimalCardModel {
+  animal: Animal;
+  animalLoading: boolean;
+}
 
 @Component({
   selector: 'app-animal-card',
@@ -16,7 +21,7 @@ import {animalLoadAction} from "../animal.actions";
 })
 export class AnimalCardComponent implements OnInit {
   formGroup: FormGroup;
-  model$: Observable<Animal>;
+  model$: Observable<AnimalCardModel>;
 
   constructor(
     private fb: FormBuilder,
@@ -26,7 +31,7 @@ export class AnimalCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.data && this.data.id) {
+    if (this.data && this.data.id != null) {
       this.store.dispatch(animalLoadAction({id: this.data.id}));
     }
 
@@ -37,12 +42,12 @@ export class AnimalCardComponent implements OnInit {
     });
 
     this.model$ = this.store.pipe(
-      select(selectAnimal),
-      tap((animal) => {
-        if (!animal) {
+      select(selectAnimalWithLoading),
+      tap((model) => {
+        if (!model.animal) {
           return;
         }
-        this.formGroup.patchValue(animal);
+        this.formGroup.patchValue(model.animal);
         console.log('### this.formGroup.value', this.formGroup.value);
       })
     );

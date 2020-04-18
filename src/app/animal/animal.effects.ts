@@ -1,9 +1,10 @@
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import * as animalActions from './animal.actions'
-import {exhaustMap, switchMap} from "rxjs/operators";
-import {of} from "rxjs"
+import {exhaustMap, map, switchMap} from "rxjs/operators";
+import {of, timer} from "rxjs"
 import {Animal} from "./animal.types";
 import {Injectable} from "@angular/core";
+
 const mockAnimals: Animal[] = [
   {
     birthday: new Date(2015, 1, 2),
@@ -36,19 +37,37 @@ export class AnimalEffects {
     this.actions$.pipe(
       ofType(animalActions.animalsLoadAction),
       exhaustMap(() => {
-        return of(animalActions.animalsAction({animals: mockAnimals}))
+        return timer(2500).pipe(
+          switchMap(() => ([
+              animalActions.animalsAction({animals: mockAnimals}),
+              animalActions.animalsLoadingAction({loading: false})
+            ])
+          )
+        );
       })
     )
   );
 
-  loadAnimal$ = createEffect(() =>
-    this.actions$.pipe(
+  loadAnimal$ = createEffect(
+    () => this.actions$.pipe(
       ofType(animalActions.animalLoadAction),
       exhaustMap(() => {
         return of(animalActions.animalAction({animal: mockAnimal}))
       })
     )
   );
+
+  deleteAnimal$ = createEffect(
+    () => this.actions$.pipe(
+      ofType(animalActions.animalDeleteAction),
+      exhaustMap((action) => {
+        return timer(2500).pipe(
+          map(() => animalActions.animalsLoadingAction({loading: false}))
+        )
+      })
+    )
+  )
+
 
   constructor(
     private actions$: Actions
