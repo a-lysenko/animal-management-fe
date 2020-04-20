@@ -1,9 +1,9 @@
-import {Actions, createEffect, ofType} from "@ngrx/effects";
-import * as animalActions from './animal.actions'
-import {exhaustMap, map, switchMap, tap} from "rxjs/operators";
-import {timer} from "rxjs"
-import {Animal} from "./animal.types";
-import {Injectable} from "@angular/core";
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import * as animalActions from './animal.actions';
+import {exhaustMap, map, switchMap, tap} from 'rxjs/operators';
+import {timer} from 'rxjs';
+import {Animal} from './animal.types';
+import {Injectable} from '@angular/core';
 
 const mockAnimals: Animal[] = [
   {
@@ -69,7 +69,7 @@ export class AnimalEffects {
       exhaustMap((action) => {
         return timer(2500).pipe(
           map(() => animalActions.animalsLoadingAction({loading: false}))
-        )
+        );
       })
     )
   );
@@ -84,7 +84,7 @@ export class AnimalEffects {
         );
       })
     )
-  )
+  );
 
 
   constructor(

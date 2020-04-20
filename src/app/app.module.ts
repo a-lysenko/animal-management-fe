@@ -9,7 +9,7 @@ import { CoreModule } from './_core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './_shared/shared.module';
 import { StoreModule } from '@ngrx/store';
-import {EffectsModule} from "@ngrx/effects";
+import {EffectsModule} from '@ngrx/effects';
 
 @NgModule({
   declarations: [

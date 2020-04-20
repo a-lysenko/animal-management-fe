@@ -5,8 +5,8 @@ import {AnimalCardComponent} from '../animal-card/animal-card.component';
 import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {animalFeatureKey, AnimalState, selectAnimalsWithLoading} from '../animal.reducer';
-import {animalDeleteAction, animalsLoadAction} from "../animal.actions";
-import {distinctUntilChanged} from "rxjs/operators";
+import {animalDeleteAction, animalsLoadAction} from '../animal.actions';
+import {distinctUntilChanged} from 'rxjs/operators';
 
 interface AnimalListModel {
   animals: Animal[];

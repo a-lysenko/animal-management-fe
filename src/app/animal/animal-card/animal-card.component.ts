@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {animalFeatureKey, AnimalState, selectAnimalWithLoading} from '../animal.reducer';
-import {animalAction, animalLoadAction, animalSaveAction} from "../animal.actions";
+import {animalAction, animalLoadAction, animalSaveAction} from '../animal.actions';
 
 interface AnimalCardModel {
   animal: Animal;
@@ -51,9 +51,9 @@ export class AnimalCardComponent implements OnInit, AfterViewInit {
         const compareValues = (sourceValue: Animal | null, destValue: FormValue) => {
           return sourceValue && Object.entries(destValue).find(
             ([destKey, destItemValue]) => {
-              return sourceValue[destKey] !== destItemValue
+              return sourceValue[destKey] !== destItemValue;
             }
-          )
+          );
         };
 
         if (compareValues(model.animal, this.formGroup.value)) {
@@ -85,7 +85,7 @@ export class AnimalCardComponent implements OnInit, AfterViewInit {
           this.executeClose(true);
         }
       })
-    )
+    );
   }
 
   private executeClose(withSave: boolean) {

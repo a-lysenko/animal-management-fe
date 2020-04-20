@@ -7,8 +7,8 @@ import { AnimalCardComponent } from './animal-card/animal-card.component';
 import {SharedModule} from '../_shared/shared.module';
 import {StoreModule} from '@ngrx/store';
 import {animalFeatureKey, reducer} from './animal.reducer';
-import {EffectsModule} from "@ngrx/effects";
-import {AnimalEffects} from "./animal.effects";
+import {EffectsModule} from '@ngrx/effects';
+import {AnimalEffects} from './animal.effects';
 
 
 @NgModule({
