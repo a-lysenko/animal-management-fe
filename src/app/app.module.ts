@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { AnimalModule } from './animal/animal.module';
 import { CoreModule } from './_core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OwnerModule } from './owner/owner.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     AnimalModule,
     CoreModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    OwnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
