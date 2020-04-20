@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Owner card</h1>
+<ng-container *ngIf="model$ | async as model">
+  <section mat-dialog-content
+           class="owner-card">
+    <form [formGroup]="formGroup" class="owner-card__form"
+          [ngClass]="{'owner-card__form_loading': model.ownerLoading}">
+
+      <p>
+        <mat-form-field>
+          <mat-label>Full Name</mat-label>
+          <input matInput placeholder="Full Name" formControlName="fullName">
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input matInput placeholder="Address" formControlName="address">
+        </mat-form-field>
+      </p>
+
+    </form>
+
+    <section class="owner-card__spinner"
+             *ngIf="model.ownerLoading">
+      <mat-spinner></mat-spinner>
+    </section>
+  </section>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button (click)="save(formGroup, model.owner)" cdkFocusInitial>Save</button>
+  </div>
+</ng-container>

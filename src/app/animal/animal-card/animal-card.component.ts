@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectionStrategy, Inject, ChangeDetectorRef, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, Inject, ChangeDetectorRef} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Animal} from '../animal.types';
@@ -21,7 +21,7 @@ type FormValue = Omit<Animal, 'id'>;
   styleUrls: ['./animal-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AnimalCardComponent implements OnInit, AfterViewInit {
+export class AnimalCardComponent implements OnInit {
   formGroup: FormGroup;
   model$: Observable<AnimalCardModel>;
 
@@ -61,12 +61,6 @@ export class AnimalCardComponent implements OnInit, AfterViewInit {
         }
       })
     );
-  }
-
-  ngAfterViewInit(): void {
-    console.log('## ngAfterViewInit');
-    this.cd.markForCheck();
-    this.cd.detectChanges();
   }
 
   cancel() {
