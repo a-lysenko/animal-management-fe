@@ -1,7 +1,7 @@
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import * as animalActions from './animal.actions'
-import {exhaustMap, map, switchMap} from "rxjs/operators";
-import {of, timer} from "rxjs"
+import {exhaustMap, map, switchMap, tap} from "rxjs/operators";
+import {timer} from "rxjs"
 import {Animal} from "./animal.types";
 import {Injectable} from "@angular/core";
 
@@ -37,7 +37,7 @@ export class AnimalEffects {
     this.actions$.pipe(
       ofType(animalActions.animalsLoadAction),
       exhaustMap(() => {
-        return timer(2500).pipe(
+        return timer(1500).pipe(
           switchMap(() => ([
               animalActions.animalsAction({animals: mockAnimals}),
               animalActions.animalsLoadingAction({loading: false})
@@ -52,7 +52,13 @@ export class AnimalEffects {
     () => this.actions$.pipe(
       ofType(animalActions.animalLoadAction),
       exhaustMap(() => {
-        return of(animalActions.animalAction({animal: mockAnimal}))
+        return timer(1500).pipe(
+          switchMap(() => ([
+              animalActions.animalAction({animal: mockAnimal}),
+              animalActions.animalLoadingAction({loading: false})
+            ])
+          )
+        );
       })
     )
   );
@@ -64,6 +70,18 @@ export class AnimalEffects {
         return timer(2500).pipe(
           map(() => animalActions.animalsLoadingAction({loading: false}))
         )
+      })
+    )
+  );
+
+  saveAnimal$ = createEffect(
+    () => this.actions$.pipe(
+      ofType(animalActions.animalSaveAction),
+      exhaustMap((action) => {
+        return timer(1500).pipe(
+          tap(() => action.successCb()),
+          map(() => animalActions.animalLoadingAction({loading: false}))
+        );
       })
     )
   )

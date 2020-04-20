@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, Inject, ChangeDetectorRef, AfterViewInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Animal} from '../animal.types';
@@ -6,12 +6,14 @@ import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {animalFeatureKey, AnimalState, selectAnimalWithLoading} from '../animal.reducer';
-import {animalLoadAction} from "../animal.actions";
+import {animalAction, animalLoadAction, animalSaveAction} from "../animal.actions";
 
 interface AnimalCardModel {
   animal: Animal;
   animalLoading: boolean;
 }
+
+type FormValue = Omit<Animal, 'id'>;
 
 @Component({
   selector: 'app-animal-card',
@@ -19,7 +21,7 @@ interface AnimalCardModel {
   styleUrls: ['./animal-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AnimalCardComponent implements OnInit {
+export class AnimalCardComponent implements OnInit, AfterViewInit {
   formGroup: FormGroup;
   model$: Observable<AnimalCardModel>;
 
@@ -27,8 +29,10 @@ export class AnimalCardComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<AnimalCardComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
-    private store: Store<{[animalFeatureKey]: AnimalState}>
-  ) {}
+    private store: Store<{ [animalFeatureKey]: AnimalState }>,
+    private cd: ChangeDetectorRef
+  ) {
+  }
 
   ngOnInit(): void {
     if (this.data && this.data.id != null) {
@@ -44,13 +48,49 @@ export class AnimalCardComponent implements OnInit {
     this.model$ = this.store.pipe(
       select(selectAnimalWithLoading),
       tap((model) => {
-        if (!model.animal) {
-          return;
+        const compareValues = (sourceValue: Animal | null, destValue: FormValue) => {
+          return sourceValue && Object.entries(destValue).find(
+            ([destKey, destItemValue]) => {
+              return sourceValue[destKey] !== destItemValue
+            }
+          )
+        };
+
+        if (compareValues(model.animal, this.formGroup.value)) {
+          this.formGroup.patchValue(model.animal);
         }
-        this.formGroup.patchValue(model.animal);
-        console.log('### this.formGroup.value', this.formGroup.value);
       })
     );
+  }
+
+  ngAfterViewInit(): void {
+    console.log('## ngAfterViewInit');
+    this.cd.markForCheck();
+    this.cd.detectChanges();
+  }
+
+  cancel() {
+    this.executeClose(false);
+  }
+
+  save(form: FormGroup & { value: FormValue }, animal: Animal) {
+    const formValue: Omit<Animal, 'id'> = form.value;
+    this.store.dispatch(
+      animalSaveAction({
+        animal: {
+          ...form.value,
+          id: animal ? animal.id : null
+        },
+        successCb: () => {
+          this.executeClose(true);
+        }
+      })
+    )
+  }
+
+  private executeClose(withSave: boolean) {
+    this.dialogRef.close(withSave);
+    this.store.dispatch(animalAction(null));
   }
 
 }

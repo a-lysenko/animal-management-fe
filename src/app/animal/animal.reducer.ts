@@ -1,4 +1,4 @@
-import {Action, createFeatureSelector, createReducer, createSelector, on, State} from '@ngrx/store';
+import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
 import {Animal} from './animal.types';
 import * as animalActions from './animal.actions';
 
@@ -44,7 +44,7 @@ const animalReducer = createReducer(
   ),
   on(
     animalActions.animalLoadAction,
-    animalActions.animalUpdateAction,
+    animalActions.animalSaveAction,
     (state) => ({
       ...state,
       animalLoading: true

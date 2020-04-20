@@ -26,9 +26,9 @@ export const animalDeleteAction = createAction(
   props<{ id: number }>()
 );
 
-export const animalUpdateAction = createAction(
+export const animalSaveAction = createAction(
   '[Animal] Update an animal',
-  props<{ animal: Animal }>()
+  props<{ animal: Animal; successCb: () => void }>()
 );
 
 export const animalsLoadAction = createAction(
