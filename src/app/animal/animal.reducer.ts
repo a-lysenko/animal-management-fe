@@ -1,6 +1,6 @@
 import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
-import {Animal} from './animal.types';
 import * as animalActions from './animal.actions';
+import {Animal} from '../_core/core.types';
 
 export interface AnimalState {
   animals: Animal[];

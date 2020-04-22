@@ -1,12 +1,12 @@
 import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Animal} from '../animal.types';
 import {AnimalCardComponent} from '../animal-card/animal-card.component';
 import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {animalFeatureKey, AnimalState, selectAnimalsWithLoading} from '../animal.reducer';
 import {animalDeleteAction, animalsLoadAction} from '../animal.actions';
 import {distinctUntilChanged} from 'rxjs/operators';
+import {Animal} from '../../_core/core.types';
 
 interface AnimalListModel {
   animals: Animal[];
@@ -43,17 +43,10 @@ export class AnimalListComponent implements OnInit {
   }
 
   openCard(animal: Partial<Animal>) {
-    const dialogRef = this.dialog.open(AnimalCardComponent, {
+    this.dialog.open(AnimalCardComponent, {
       width: '70vw',
       maxWidth: '500px',
       data: {id: animal.id}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      if (result) {
-        this.store.dispatch(animalsLoadAction());
-      }
     });
   }
 

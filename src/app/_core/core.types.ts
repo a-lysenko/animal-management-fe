@@ -8,3 +8,11 @@ export interface Address {
 
 export type AnimalId = number;
 export type OwnerId = number;
+type Species = string;
+
+export interface Animal {
+  id: AnimalId;
+  birthday: Date;
+  species: Species;
+  vaccinated: boolean;
+}

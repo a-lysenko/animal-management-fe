@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Animal} from './animal.types';
+import {Animal} from '../_core/core.types';
 
 export const animalsAction = createAction(
   '[Animal] animals',
@@ -27,7 +27,7 @@ export const animalDeleteAction = createAction(
 );
 
 export const animalSaveAction = createAction(
-  '[Animal] Update an animal',
+  '[Animal] Save an animal',
   props<{ animal: Animal; successCb: () => void }>()
 );
 

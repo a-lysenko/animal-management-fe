@@ -1,12 +1,12 @@
-import {Component, OnInit, ChangeDetectionStrategy, Inject, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {Animal} from '../animal.types';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {animalFeatureKey, AnimalState, selectAnimalWithLoading} from '../animal.reducer';
 import {animalAction, animalLoadAction, animalSaveAction} from '../animal.actions';
+import {Animal} from '../../_core/core.types';
 
 interface AnimalCardModel {
   animal: Animal;
@@ -29,8 +29,7 @@ export class AnimalCardComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<AnimalCardComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
-    private store: Store<{ [animalFeatureKey]: AnimalState }>,
-    private cd: ChangeDetectorRef
+    private store: Store<{ [animalFeatureKey]: AnimalState }>
   ) {
   }
 
@@ -68,7 +67,6 @@ export class AnimalCardComponent implements OnInit {
   }
 
   save(form: FormGroup & { value: FormValue }, animal: Animal) {
-    const formValue: Omit<Animal, 'id'> = form.value;
     this.store.dispatch(
       animalSaveAction({
         animal: {

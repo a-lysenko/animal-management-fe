@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {SharedModule} from '../_shared/shared.module';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
+import {HttpClientModule} from '@angular/common/http';
 
 
 
@@ -10,6 +10,7 @@ import {EffectsModule} from '@ngrx/effects';
   declarations: [],
   imports: [
     CommonModule,
+    HttpClientModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([])
   ]
