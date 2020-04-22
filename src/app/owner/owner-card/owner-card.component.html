@@ -8,14 +8,31 @@
       <p>
         <mat-form-field class="owner-card__field">
           <mat-label>Full Name</mat-label>
-          <input matInput placeholder="Full Name" formControlName="fullName">
+          <input matInput placeholder="Full Name" formControlName="fullname">
         </mat-form-field>
       </p>
 
-      <p>
+      <p class="owner-card__group">
         <mat-form-field>
-          <mat-label>Address</mat-label>
-          <input matInput placeholder="Address" formControlName="address">
+          <mat-label>Street</mat-label>
+          <input matInput placeholder="Street" formControlName="street">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>City</mat-label>
+          <input matInput placeholder="City" formControlName="city">
+        </mat-form-field>
+      </p>
+
+      <p class="owner-card__group">
+        <mat-form-field>
+          <mat-label>Country</mat-label>
+          <input matInput placeholder="Country" formControlName="country">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Zip Code</mat-label>
+          <input matInput placeholder="Zip Code" formControlName="zipcode">
         </mat-form-field>
       </p>
 

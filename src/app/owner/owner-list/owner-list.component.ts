@@ -2,11 +2,11 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
-import {ownerFeatureKey, OwnerState, selectOwnersWithLoading} from '../../owner/owner.reducer';
-import {ownerDeleteAction, ownersLoadAction} from '../../owner/owner.actions';
+import {ownerFeatureKey, OwnerState, selectOwnersWithLoading} from '../owner.reducer';
+import {ownerDeleteAction, ownersLoadAction} from '../owner.actions';
 import {distinctUntilChanged} from 'rxjs/operators';
-import {Owner} from '../../owner/owner.types';
-import {OwnerCardComponent} from '../../owner/owner-card/owner-card.component';
+import {OwnerCardComponent} from '../owner-card/owner-card.component';
+import {Owner} from '../../_core/core.types';
 
 interface OwnerListModel {
   owners: Owner[];
@@ -43,17 +43,10 @@ export class OwnerListComponent implements OnInit {
   }
 
   openCard(owner: Partial<Owner>) {
-    const dialogRef = this.dialog.open(OwnerCardComponent, {
+    this.dialog.open(OwnerCardComponent, {
       width: '70vw',
       maxWidth: '500px',
       data: {id: owner.id}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-      if (result) {
-        this.store.dispatch(ownersLoadAction());
-      }
     });
   }
 

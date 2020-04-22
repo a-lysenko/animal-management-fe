@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Owner} from './owner.types';
+import {Owner} from '../_core/core.types';
 
 export const ownersAction = createAction(
   '[Owner] owners',
@@ -27,7 +27,7 @@ export const ownerDeleteAction = createAction(
 );
 
 export const ownerSaveAction = createAction(
-  '[Owner] Update an owner',
+  '[Owner] Save an owner',
   props<{ owner: Owner; successCb: () => void }>()
 );
 

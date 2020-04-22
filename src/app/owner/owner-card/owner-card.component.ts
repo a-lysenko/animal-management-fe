@@ -1,19 +1,19 @@
-import {Component, OnInit, ChangeDetectionStrategy, Inject, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
-import {ownerFeatureKey, OwnerState, selectOwnerWithLoading} from '../../owner/owner.reducer';
-import {ownerAction, ownerLoadAction, ownerSaveAction} from '../../owner/owner.actions';
+import {ownerFeatureKey, OwnerState, selectOwnerWithLoading} from '../owner.reducer';
+import {ownerAction, ownerLoadAction, ownerSaveAction} from '../owner.actions';
 import {tap} from 'rxjs/operators';
-import {Owner} from '../../owner/owner.types';
+import {Owner} from '../../_core/core.types';
 
 interface OwnerCardModel {
   owner: Owner;
   ownerLoading: boolean;
 }
 
-type FormValue = Omit<Owner, 'id'>;
+type FormValue = Omit<Owner, 'id' | 'addressid'>;
 
 @Component({
   selector: 'app-owner-card',
@@ -40,8 +40,11 @@ export class OwnerCardComponent implements OnInit {
     }
 
     this.formGroup = this.fb.group({
-      fullName: null,
-      address: ''
+      fullname: '',
+      city: '',
+      country: '',
+      street: '',
+      zipcode: ''
     });
 
     this.model$ = this.store.pipe(
@@ -67,12 +70,12 @@ export class OwnerCardComponent implements OnInit {
   }
 
   save(form: FormGroup & { value: FormValue }, owner: Owner) {
-    const formValue: Omit<Owner, 'id'> = form.value;
     this.store.dispatch(
       ownerSaveAction({
         owner: {
           ...form.value,
-          id: owner ? owner.id : null
+          id: owner ? owner.id : null,
+          addressid: owner ? owner.id : null
         },
         successCb: () => {
           this.executeClose(true);

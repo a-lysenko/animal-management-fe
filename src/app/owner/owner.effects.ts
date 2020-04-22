@@ -1,34 +1,9 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import * as ownerActions from './owner.actions';
-import {exhaustMap, map, switchMap, tap} from 'rxjs/operators';
-import {timer} from 'rxjs';
-import {Owner} from './owner.types';
+import {catchError, exhaustMap, switchMap, tap} from 'rxjs/operators';
+import {of} from 'rxjs';
 import {Injectable} from '@angular/core';
-
-const mockOwners: Owner[] = [
-  {
-    fullName: 'John Lennon',
-    address: 'Hauptstr. 5 01234 Musterstadt Germany'
-  },
-  {
-    fullName: 'Paul McCartney',
-    address: 'Hauptstr. 5 01234 Musterstadt Germany'
-  },
-  {
-    fullName: 'George Harrison',
-    address: 'Hauptstr. 5 01234 Musterstadt Germany'
-  },
-  {
-    fullName: 'Ringo Starr',
-    address: 'Hauptstr. 5 01234 Musterstadt Germany'
-  }
-].map((item, id) => ({id, ...item}));
-
-const mockOwner = {
-  id: 42,
-  fullName: 'Paul McCartney',
-  address: 'Hauptstr. 5 01234 Musterstadt Germany'
-};
+import {OwnerService} from '../_core/owner.service';
+import * as ownerActions from '../owner/owner.actions';
 
 @Injectable()
 export class OwnerEffects {
@@ -37,13 +12,19 @@ export class OwnerEffects {
     this.actions$.pipe(
       ofType(ownerActions.ownersLoadAction),
       exhaustMap(() => {
-        return timer(1500).pipe(
-          switchMap(() => ([
-              ownerActions.ownersAction({owners: mockOwners}),
-              ownerActions.ownersLoadingAction({loading: false})
-            ])
-          )
-        );
+        return this.ownerService.getAll()
+          .pipe(
+            switchMap((owners) => {
+              return [
+                ownerActions.ownersAction({owners}),
+                ownerActions.ownersLoadingAction({loading: false})
+              ];
+            }),
+            catchError((data) => {
+              console.log('Error', data);
+              return of(ownerActions.ownersLoadingAction({loading: false}))
+            })
+          );
       })
     )
   );
@@ -51,14 +32,20 @@ export class OwnerEffects {
   loadOwner$ = createEffect(
     () => this.actions$.pipe(
       ofType(ownerActions.ownerLoadAction),
-      exhaustMap(() => {
-        return timer(1500).pipe(
-          switchMap(() => ([
-              ownerActions.ownerAction({owner: mockOwner}),
-              ownerActions.ownerLoadingAction({loading: false})
-            ])
-          )
-        );
+      exhaustMap((action) => {
+        return this.ownerService.get(action.id)
+          .pipe(
+            switchMap((owner) => {
+              return [
+                ownerActions.ownerAction({owner}),
+                ownerActions.ownerLoadingAction({loading: false})
+              ];
+            }),
+            catchError((data) => {
+              console.log('Error', data);
+              return of(ownerActions.ownerLoadingAction({loading: false}))
+            })
+          );
       })
     )
   );
@@ -67,9 +54,19 @@ export class OwnerEffects {
     () => this.actions$.pipe(
       ofType(ownerActions.ownerDeleteAction),
       exhaustMap((action) => {
-        return timer(2500).pipe(
-          map(() => ownerActions.ownersLoadingAction({loading: false}))
-        );
+        return this.ownerService.delete(action.id)
+          .pipe(
+            switchMap(() => {
+              return [
+                ownerActions.ownersLoadingAction({loading: false}),
+                ownerActions.ownersLoadAction()
+              ]
+            }),
+            catchError((data) => {
+              console.log('Error', data);
+              return of(ownerActions.ownersLoadingAction({loading: false}))
+            })
+          );
       })
     )
   );
@@ -78,17 +75,33 @@ export class OwnerEffects {
     () => this.actions$.pipe(
       ofType(ownerActions.ownerSaveAction),
       exhaustMap((action) => {
-        return timer(1500).pipe(
-          tap(() => action.successCb()),
-          map(() => ownerActions.ownerLoadingAction({loading: false}))
-        );
+        return (() => {
+          if (action.owner.id != null) {
+            return this.ownerService.update(action.owner);
+          }
+          return this.ownerService.add(action.owner);
+        })()
+          .pipe(
+            tap(() => action.successCb()),
+            switchMap(() => {
+              return [
+                ownerActions.ownerLoadingAction({loading: false}),
+                ownerActions.ownersLoadAction()
+              ]
+            }),
+            catchError((data) => {
+              console.log('Error', data);
+              return of(ownerActions.ownerLoadingAction({loading: false}))
+            })
+          );
       })
     )
   );
 
 
   constructor(
-    private actions$: Actions
+    private actions$: Actions,
+    private ownerService: OwnerService
   ) {
   }
 }

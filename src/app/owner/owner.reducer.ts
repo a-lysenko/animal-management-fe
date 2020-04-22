@@ -1,6 +1,6 @@
 import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
-import {Owner} from './owner.types';
 import * as ownerActions from './owner.actions';
+import {Owner} from '../_core/core.types';
 
 export interface OwnerState {
   owners: Owner[];
