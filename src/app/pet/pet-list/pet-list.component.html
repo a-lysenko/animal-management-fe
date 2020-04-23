@@ -1,0 +1,46 @@
+<header>
+  <h1>Pets</h1>
+</header>
+
+<section *ngIf="model$ | async as model"
+  class="animal-list">
+  <section>
+    <button
+      mat-raised-button
+      [disabled]="model.petsLoading"
+      (click)="openCard({id: null})">Add new pet</button>
+  </section>
+
+  <section>
+    <mat-list
+      role="list"
+      class="animal-list__list"
+      [ngClass]="{'animal-list__list_loading': model.petsLoading}">
+      <mat-list-item role="listitem"
+                     *ngFor="let animal of model.pets; trackBy: trackByFn">
+        <div class="item-line">
+          <span class="item-line__birthday">{{animal.birthday | date}}</span>
+          <span class="item-line__species">{{animal.species}}</span>
+          <span class="item-line__vaccinated">
+            {{animal.vaccinated ? '' : 'Not'}} Vaccinated
+          </span>
+          <span class="item-line__fullname">Owner <strong>{{animal.fullname}}</strong></span>
+          <div class="item-line__buttons">
+            <button mat-icon-button (click)="openCard(animal)" color="">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="delete(animal)" color="accent">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+
+    <section *ngIf="model.petsLoading"
+      class="animal-list__spinner">
+      <mat-spinner></mat-spinner>
+    </section>
+  </section>
+</section>
+

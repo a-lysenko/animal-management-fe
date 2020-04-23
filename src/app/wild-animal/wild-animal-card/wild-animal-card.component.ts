@@ -28,7 +28,7 @@ interface FormValue {
 }
 
 @Component({
-  selector: 'app-animal-card',
+  selector: 'app-wild-animal-card',
   templateUrl: './wild-animal-card.component.html',
   styleUrls: ['./wild-animal-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -65,14 +65,6 @@ export class WildAnimalCardComponent implements OnInit {
     this.model$ = this.store.pipe(
       select(selectWildAnimalModel),
       tap((model) => {
-        const compareValues = (sourceValue: WildAnimal | null, destValue: FormValue) => {
-          return sourceValue && Object.entries(destValue).find(
-            ([destKey, destItemValue]) => {
-              return sourceValue[destKey] !== destItemValue;
-            }
-          );
-        };
-
         if (!wasPatched && model.wildAnimal) {
           this.formGroup.get('animal').setValue(
             {

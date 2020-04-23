@@ -16,8 +16,43 @@
       role="list"
       class="animal-list__list"
       [ngClass]="{'animal-list__list_loading': model.animalsLoading}">
+      <div mat-subheader>Animals</div>
       <mat-list-item role="listitem"
-                     *ngFor="let animal of model.animals; trackBy: trackByFn">
+                     *ngFor="let animal of model.generalAnimals; trackBy: trackByFn">
+        <div class="item-line">
+          <span class="item-line__birthday">{{animal.birthday | date}}</span>
+          <span class="item-line__species">{{animal.species}}</span>
+          <span class="item-line__vaccinated">{{animal.vaccinated ? '' : 'Not'}} Vaccinated</span>
+          <div class="item-line__buttons">
+            <button mat-icon-button (click)="openCard(animal)" color="">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="delete(animal)" color="accent">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-list-item>
+      <div mat-subheader>Wild Animals</div>
+      <mat-list-item role="listitem"
+                     *ngFor="let animal of model.wildAnimals; trackBy: trackByFn">
+        <div class="item-line">
+          <span class="item-line__birthday">{{animal.birthday | date}}</span>
+          <span class="item-line__species">{{animal.species}}</span>
+          <span class="item-line__vaccinated">{{animal.vaccinated ? '' : 'Not'}} Vaccinated</span>
+          <div class="item-line__buttons">
+            <button mat-icon-button (click)="openCard(animal)" color="">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="delete(animal)" color="accent">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-list-item>
+      <div mat-subheader>Pets</div>
+      <mat-list-item role="listitem"
+                     *ngFor="let animal of model.petAnimals; trackBy: trackByFn">
         <div class="item-line">
           <span class="item-line__birthday">{{animal.birthday | date}}</span>
           <span class="item-line__species">{{animal.species}}</span>

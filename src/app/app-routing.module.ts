@@ -23,6 +23,10 @@ const routes: Routes = [
   {
     path: 'wild-animal',
     loadChildren: () => import('./wild-animal/wild-animal.module').then(m => m.WildAnimalModule)
+  },
+  {
+    path: 'pet',
+    loadChildren: () => import('./pet/pet.module').then(m => m.PetModule)
   }
 ];
 

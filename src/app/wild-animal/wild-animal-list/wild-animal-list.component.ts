@@ -18,7 +18,7 @@ interface WildAnimalListModel {
 }
 
 @Component({
-  selector: 'app-animal-list',
+  selector: 'app-wild-animal-list',
   templateUrl: './wild-animal-list.component.html',
   styleUrls: ['./wild-animal-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

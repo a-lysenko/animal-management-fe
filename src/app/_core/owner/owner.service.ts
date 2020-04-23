@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {CoreModule} from './core.module';
+import {CoreModule} from '../core.module';
 import {HttpClient} from '@angular/common/http';
-import {Owner, OwnerId} from './core.types';
+import {Owner, OwnerId} from '../core.types';
 
 @Injectable({
   providedIn: CoreModule

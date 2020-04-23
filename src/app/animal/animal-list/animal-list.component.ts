@@ -5,11 +5,14 @@ import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {animalFeatureKey, AnimalState, selectAnimalsWithLoading} from '../../_core/animal/animal.reducer';
 import {animalDeleteAction, animalsLoadAction} from '../../_core/animal/animal.actions';
-import {distinctUntilChanged} from 'rxjs/operators';
+import {distinctUntilChanged, map} from 'rxjs/operators';
 import {Animal} from '../../_core/core.types';
 
 interface AnimalListModel {
   animals: Animal[];
+  generalAnimals: Animal[];
+  wildAnimals: Animal[];
+  petAnimals: Animal[];
   animalsLoading: boolean;
 }
 
@@ -38,7 +41,28 @@ export class AnimalListComponent implements OnInit {
       // besides, check here may have a positive effect to the performance along rendering
       distinctUntilChanged(
         (prev, current) => JSON.stringify(prev) === JSON.stringify(current)
-      )
+      ),
+      map((model) => {
+        const {wildAnimals, petAnimals, generalAnimals} = model.animals
+          .reduce(
+            (acc, animal) => {
+              return {
+                wildAnimals: animal.iswild ? [...acc.wildAnimals, animal] : acc.wildAnimals,
+                petAnimals: animal.ispet ? [...acc.petAnimals, animal] : acc.petAnimals,
+                generalAnimals: (!animal.iswild && !animal.ispet)
+                  ? [...acc.generalAnimals, animal] : acc.generalAnimals
+              }
+            },
+            {wildAnimals: [], petAnimals: [], generalAnimals: []}
+            );
+
+        return {
+          ...model,
+          wildAnimals,
+          petAnimals,
+          generalAnimals
+        }
+      })
     );
   }
 

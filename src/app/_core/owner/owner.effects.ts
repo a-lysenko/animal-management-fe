@@ -2,8 +2,8 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, exhaustMap, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {OwnerService} from '../_core/owner.service';
-import * as ownerActions from '../owner/owner.actions';
+import {OwnerService} from './owner.service';
+import * as ownerActions from './owner.actions';
 
 @Injectable()
 export class OwnerEffects {

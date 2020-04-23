@@ -3,8 +3,8 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
-import {ownerFeatureKey, OwnerState, selectOwnerWithLoading} from '../owner.reducer';
-import {ownerAction, ownerLoadAction, ownerSaveAction} from '../owner.actions';
+import {ownerFeatureKey, OwnerState, selectOwnerWithLoading} from '../../_core/owner/owner.reducer';
+import {ownerAction, ownerLoadAction, ownerSaveAction} from '../../_core/owner/owner.actions';
 import {tap} from 'rxjs/operators';
 import {Owner} from '../../_core/core.types';
 

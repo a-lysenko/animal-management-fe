@@ -14,6 +14,8 @@ import {EffectsModule} from '@ngrx/effects';
 import {animalFeatureKey, reducer} from './_core/animal/animal.reducer';
 import {AnimalEffects} from './_core/animal/animal.effects';
 import {SharedModule} from './_shared/shared.module';
+import {ownerFeatureKey, reducer as ownerReducer} from './_core/owner/owner.reducer';
+import {OwnerEffects} from './_core/owner/owner.effects';
 
 @NgModule({
   declarations: [
@@ -30,8 +32,9 @@ import {SharedModule} from './_shared/shared.module';
     OwnerModule,
     WildAnimalModule,
     StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([AnimalEffects]),
-    StoreModule.forFeature(animalFeatureKey, reducer)
+    EffectsModule.forRoot([AnimalEffects, OwnerEffects]),
+    StoreModule.forFeature(animalFeatureKey, reducer),
+    StoreModule.forFeature(ownerFeatureKey, ownerReducer)
   ],
   providers: [],
   bootstrap: [AppComponent]

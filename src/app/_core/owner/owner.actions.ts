@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {Owner} from '../_core/core.types';
+import {Owner} from '../core.types';
 
 export const ownersAction = createAction(
   '[Owner] owners',
