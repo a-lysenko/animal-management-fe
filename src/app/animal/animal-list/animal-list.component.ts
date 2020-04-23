@@ -3,8 +3,8 @@ import {Observable} from 'rxjs';
 import {AnimalCardComponent} from '../animal-card/animal-card.component';
 import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
-import {animalFeatureKey, AnimalState, selectAnimalsWithLoading} from '../animal.reducer';
-import {animalDeleteAction, animalsLoadAction} from '../animal.actions';
+import {animalFeatureKey, AnimalState, selectAnimalsWithLoading} from '../../_core/animal/animal.reducer';
+import {animalDeleteAction, animalsLoadAction} from '../../_core/animal/animal.actions';
 import {distinctUntilChanged} from 'rxjs/operators';
 import {Animal} from '../../_core/core.types';
 

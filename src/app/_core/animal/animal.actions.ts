@@ -1,9 +1,9 @@
 import {createAction, props} from '@ngrx/store';
-import {Animal} from '../_core/core.types';
+import {Animal, AnimalFlagged} from '../core.types';
 
 export const animalsAction = createAction(
   '[Animal] animals',
-  props<{ animals: Animal[] }>()
+  props<{ animals: AnimalFlagged[] }>()
 );
 
 export const animalAction = createAction(

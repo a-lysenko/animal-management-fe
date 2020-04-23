@@ -3,7 +3,7 @@ import * as animalActions from './animal.actions';
 import {catchError, exhaustMap, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {AnimalService} from '../_core/animal.service';
+import {AnimalService} from './animal.service';
 
 @Injectable()
 export class AnimalEffects {

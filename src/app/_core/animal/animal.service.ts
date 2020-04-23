@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {CoreModule} from './core.module';
+import {CoreModule} from '../core.module';
 import {HttpClient} from '@angular/common/http';
-import {Animal, AnimalId} from './core.types';
+import {Animal, AnimalFlagged, AnimalId} from '../core.types';
 
 @Injectable({
   providedIn: CoreModule
@@ -13,7 +13,7 @@ export class AnimalService {
   ) { }
 
   getAll() {
-    return this.http.get<Animal[]>('api/animals/all');
+    return this.http.get<AnimalFlagged[]>('api/animals/all');
   }
 
   get(id: AnimalId) {

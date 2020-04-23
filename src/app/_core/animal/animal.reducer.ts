@@ -1,9 +1,9 @@
 import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
 import * as animalActions from './animal.actions';
-import {Animal} from '../_core/core.types';
+import {Animal, AnimalFlagged} from '../core.types';
 
 export interface AnimalState {
-  animals: Animal[];
+  animals: AnimalFlagged[];
   animal: Animal | null;
   animalsLoading: boolean;
   animalLoading: boolean;
@@ -60,8 +60,13 @@ export function reducer(state: AnimalState | undefined, action: Action) {
 
 export const selectFeature = createFeatureSelector<AnimalState>(animalFeatureKey);
 
-export const selectAnimalsWithLoading = createSelector(
+export const selectFullAnimalsWithLoading = createSelector(
   selectFeature,
+  ({animals, animalsLoading}) => ({animals, animalsLoading})
+);
+
+export const selectAnimalsWithLoading = createSelector(
+  selectFullAnimalsWithLoading,
   ({animals, animalsLoading}) => ({animals, animalsLoading})
 );
 

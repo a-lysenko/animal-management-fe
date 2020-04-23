@@ -2,3 +2,46 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.item-line {
+  display: flex;
+  width: 100%;
+  justify-content: left;
+  align-items: center;
+
+  &__buttons,
+  &__birthday,
+  &__species,
+  &__vaccinated,
+  &__tracking-id,
+  &__fullname {
+    display: block;
+    width: 20%;
+    max-width: 120px;
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    &_long {
+      width: auto;
+    }
+  }
+
+  &__species {
+    max-width: 150px;
+  }
+
+  &__tracking-id {
+    max-width: 100px;
+  }
+
+  &__fullname {
+    max-width: 150px;
+  }
+
+  &__address {
+    display: block;
+    width: 60%;
+    max-width: 250px;
+  }
+}

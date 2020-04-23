@@ -1,0 +1,53 @@
+<h1 mat-dialog-title>Animal card</h1>
+<ng-container *ngIf="model$ | async as model">
+  <section mat-dialog-content
+           class="animal-card">
+    <form [formGroup]="formGroup" class="animal-card__form"
+          [ngClass]="{'animal-card__form_loading': model.dataLoading}">
+
+      <mat-form-field class="animal-card__field">
+        <mat-label>Animal</mat-label>
+        <mat-select placeholder="Select Animal"
+                    formControlName="animal"
+                    [compareWith]="compareWithFn"
+                    required>
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let animal of model.animalsToSelect" [value]="animal">
+            <div class="item-line">
+              <span class="item-line__birthday item-line__birthday_long">{{animal.birthday | date}}</span>
+              <span class="item-line__species">{{animal.species}}</span>
+              <span class="item-line__vaccinated">
+                {{animal.vaccinated ? '' : 'Not'}} Vaccinated
+              </span>
+            </div>
+          </mat-option>
+        </mat-select>
+        <!--        <mat-error *ngIf="animalControl.hasError('required')">Please choose an animal</mat-error>-->
+        <!--        <mat-hint>{{animalControl.value?.sound}}</mat-hint>-->
+
+      </mat-form-field>
+
+      <p>
+        <mat-form-field>
+          <mat-label>Tracking ID</mat-label>
+          <input matInput type="number" placeholder="Tracking ID" formControlName="trackingid">
+        </mat-form-field>
+      </p>
+
+    </form>
+
+    <section>
+      Outer {{model | json}}
+    </section>
+
+    <section class="animal-card__spinner"
+             *ngIf="model.dataLoading">
+      <mat-spinner></mat-spinner>
+    </section>
+  </section>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button (click)="save(formGroup, model.wildAnimal)" cdkFocusInitial>Save</button>
+  </div>
+</ng-container>

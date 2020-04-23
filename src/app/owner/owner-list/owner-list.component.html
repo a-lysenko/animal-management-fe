@@ -18,14 +18,17 @@
       [ngClass]="{'owner-list__list_loading': model.ownersLoading}">
       <mat-list-item role="listitem"
                      *ngFor="let owner of model.owners; trackBy: trackByFn">
-        <div>
-          <span>{{owner | json}}</span>
-          <button mat-icon-button (click)="openCard(owner)" color="">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button (click)="delete(owner)" color="accent">
-            <mat-icon>delete</mat-icon>
-          </button>
+        <div class="item-line">
+          <span class="item-line__fullname">{{owner.fullname}}</span>
+          <span class="item-line__address">{{owner.fullAddress}}</span>
+          <div class="item-line__buttons">
+            <button mat-icon-button (click)="openCard(owner)" color="">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="delete(owner)" color="accent">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </div>
       </mat-list-item>
     </mat-list>

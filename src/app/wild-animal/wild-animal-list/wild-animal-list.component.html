@@ -1,5 +1,5 @@
 <header>
-  <h1>Animals</h1>
+  <h1>Wild Animals</h1>
 </header>
 
 <section *ngIf="model$ | async as model"
@@ -7,21 +7,24 @@
   <section>
     <button
       mat-raised-button
-      [disabled]="model.animalsLoading"
-      (click)="openCard({id: null})">Add new animal</button>
+      [disabled]="model.wildAnimalsLoading"
+      (click)="openCard({id: null})">Add new wild animal</button>
   </section>
 
   <section>
     <mat-list
       role="list"
       class="animal-list__list"
-      [ngClass]="{'animal-list__list_loading': model.animalsLoading}">
+      [ngClass]="{'animal-list__list_loading': model.wildAnimalsLoading}">
       <mat-list-item role="listitem"
-                     *ngFor="let animal of model.animals; trackBy: trackByFn">
+                     *ngFor="let animal of model.wildAnimals; trackBy: trackByFn">
         <div class="item-line">
           <span class="item-line__birthday">{{animal.birthday | date}}</span>
           <span class="item-line__species">{{animal.species}}</span>
-          <span class="item-line__vaccinated">{{animal.vaccinated ? '' : 'Not'}} Vaccinated</span>
+          <span class="item-line__vaccinated">
+            {{animal.vaccinated ? '' : 'Not'}} Vaccinated
+          </span>
+          <span class="item-line__tracking-id">ID <strong>{{animal.trackingid}}</strong></span>
           <div class="item-line__buttons">
             <button mat-icon-button (click)="openCard(animal)" color="">
               <mat-icon>edit</mat-icon>
@@ -34,7 +37,7 @@
       </mat-list-item>
     </mat-list>
 
-    <section *ngIf="model.animalsLoading"
+    <section *ngIf="model.wildAnimalsLoading"
       class="animal-list__spinner">
       <mat-spinner></mat-spinner>
     </section>

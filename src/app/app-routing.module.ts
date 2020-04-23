@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'owner',
     loadChildren: () => import('./owner/owner.module').then(m => m.OwnerModule)
+  },
+  {
+    path: 'wild-animal',
+    loadChildren: () => import('./wild-animal/wild-animal.module').then(m => m.WildAnimalModule)
   }
 ];
 

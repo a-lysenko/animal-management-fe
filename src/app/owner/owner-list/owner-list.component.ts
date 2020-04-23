@@ -4,12 +4,12 @@ import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {ownerFeatureKey, OwnerState, selectOwnersWithLoading} from '../owner.reducer';
 import {ownerDeleteAction, ownersLoadAction} from '../owner.actions';
-import {distinctUntilChanged} from 'rxjs/operators';
+import {distinctUntilChanged, map} from 'rxjs/operators';
 import {OwnerCardComponent} from '../owner-card/owner-card.component';
 import {Owner} from '../../_core/core.types';
 
 interface OwnerListModel {
-  owners: Owner[];
+  owners: (Owner & {fullAddress: string})[];
   ownersLoading: boolean;
 }
 
@@ -38,7 +38,18 @@ export class OwnerListComponent implements OnInit {
       // besides, check here may have a positive effect to the performance along rendering
       distinctUntilChanged(
         (prev, current) => JSON.stringify(prev) === JSON.stringify(current)
-      )
+      ),
+      map((model) => {
+        return {
+          ...model,
+          owners: model.owners.map((owner) => {
+            return {
+              ...owner,
+              fullAddress: [owner.street, owner.city, owner.country, owner.zipcode].join(', ')
+            }
+          })
+        };
+      })
     );
   }
 

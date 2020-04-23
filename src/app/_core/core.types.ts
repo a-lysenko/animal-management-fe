@@ -4,7 +4,7 @@ export interface Address {
   street: string;
   city: string;
   country: string;
-  zipCode: string;
+  zipcode: string;
 }
 
 export type AddressId = number;
@@ -17,6 +17,11 @@ export interface Animal {
   birthday: Date;
   species: Species;
   vaccinated: boolean;
+}
+
+export interface AnimalFlagged extends Animal {
+  ispet: boolean;
+  iswild: boolean;
 }
 
 export interface Owner extends Address {

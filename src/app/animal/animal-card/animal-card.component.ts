@@ -4,8 +4,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
-import {animalFeatureKey, AnimalState, selectAnimalWithLoading} from '../animal.reducer';
-import {animalAction, animalLoadAction, animalSaveAction} from '../animal.actions';
+import {animalFeatureKey, AnimalState, selectAnimalWithLoading} from '../../_core/animal/animal.reducer';
+import {animalAction, animalLoadAction, animalSaveAction} from '../../_core/animal/animal.actions';
 import {Animal} from '../../_core/core.types';
 
 interface AnimalCardModel {
